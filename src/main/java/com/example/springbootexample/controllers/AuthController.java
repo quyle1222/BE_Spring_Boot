@@ -1,8 +1,7 @@
 package com.example.springbootexample.controllers;
 
+import com.example.springbootexample.dto.ApiRepository;
 import com.example.springbootexample.dto.UserDTO;
-import com.example.springbootexample.models.ApiRepository;
-import com.example.springbootexample.models.User;
 import com.example.springbootexample.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,5 +30,4 @@ public class AuthController {
         }
         return repository;
     }
-
 }

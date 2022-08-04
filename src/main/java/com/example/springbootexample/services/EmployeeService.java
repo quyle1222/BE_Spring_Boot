@@ -1,6 +1,6 @@
 package com.example.springbootexample.services;
 
-import com.example.springbootexample.models.ApiRepository;
+import com.example.springbootexample.dto.ApiRepository;
 import com.example.springbootexample.models.Employee;
 import com.example.springbootexample.repositorys.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;

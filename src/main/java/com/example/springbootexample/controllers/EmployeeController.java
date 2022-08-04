@@ -1,7 +1,7 @@
 package com.example.springbootexample.controllers;
 
 
-import com.example.springbootexample.models.ApiRepository;
+import com.example.springbootexample.dto.ApiRepository;
 import com.example.springbootexample.models.Employee;
 import com.example.springbootexample.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;

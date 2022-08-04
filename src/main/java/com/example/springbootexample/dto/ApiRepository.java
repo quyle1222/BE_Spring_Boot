@@ -1,6 +1,4 @@
-package com.example.springbootexample.models;
-
-import org.springframework.boot.context.properties.bind.DefaultValue;
+package com.example.springbootexample.dto;
 
 public class ApiRepository {
     private boolean success = false;
