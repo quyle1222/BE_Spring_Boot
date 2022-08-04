@@ -27,20 +27,16 @@ public class AuthController {
     AuthenticationManager authenticationManager;
 
     @PostMapping("/login")
-    public ApiRepository authenticateUser(@Validated @RequestBody UserDTO loginRequest) {
+    public ApiRepository authenticateUser(@RequestBody UserDTO loginRequest) {
         ApiRepository repository = new ApiRepository();
         try {
-            // Xác thực từ username và password.
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequest.getUsername(),
                             loginRequest.getPassword()
                     )
             );
-            // Nếu không xảy ra exception tức là thông tin hợp lệ
-            // Set thông tin authentication vào Security Context
             SecurityContextHolder.getContext().setAuthentication(authentication);
-//        // Trả về jwt cho người dùng.
             String jwt = tokenProvider.generateToken((UserDTO) authentication.getPrincipal());
             repository.setSuccess(true);
             repository.setData(jwt);

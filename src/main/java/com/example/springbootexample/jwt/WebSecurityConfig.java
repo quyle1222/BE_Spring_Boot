@@ -1,5 +1,4 @@
 package com.example.springbootexample.jwt;
-
 import com.example.springbootexample.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
