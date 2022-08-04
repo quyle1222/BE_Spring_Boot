@@ -15,4 +15,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Transactional
     @Query(value = "INSERT INTO user ( username, password ) VALUES ( :username , :password )" , nativeQuery = true)
     void saveUser (@Param("username") String username, @Param("password") String password);
+
+    User findByUsername(String username);
 }
