@@ -1,5 +1,6 @@
 package com.example.springbootexample.controllers;
 
+import com.example.springbootexample.dto.UserDTO;
 import com.example.springbootexample.models.ApiRepository;
 import com.example.springbootexample.models.User;
 import com.example.springbootexample.services.AuthService;
@@ -16,7 +17,7 @@ public class AuthController {
     AuthService authService;
 
     @PostMapping("/createUser")
-    private ApiRepository createUser(@RequestBody User user) {
+    private ApiRepository createUser(@RequestBody UserDTO user) {
         ApiRepository repository = new ApiRepository();
         try {
             if (user == null || user.getUsername() == null || user.getPassword() == null || user.getUsername().trim().isEmpty() || user.getPassword().trim().isEmpty()) {

@@ -1,18 +1,18 @@
 package com.example.springbootexample.services;
 
-import com.example.springbootexample.models.ApiRepository;
-import com.example.springbootexample.models.User;
-import com.example.springbootexample.repositorys.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.ObjectError;
+
+import com.example.springbootexample.dto.UserDTO;
+import com.example.springbootexample.models.ApiRepository;
+import com.example.springbootexample.repositorys.UserRepository;
 
 @Service
 public class AuthService {
     @Autowired
     UserRepository userRepository;
 
-    public ApiRepository createUser(User user) {
+    public ApiRepository createUser(UserDTO user) {
         ApiRepository apiRepository = new ApiRepository();
         try {
             userRepository.saveUser(user.getUsername(),user.getPassword());
