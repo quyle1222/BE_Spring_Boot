@@ -1,10 +1,10 @@
 # Spring_Boot_Example
 # Create db with 
 
-*CREATE DATABASE `employee-schema`;
-*USE `employee-schema`;
+CREATE DATABASE `employee-schema`;
+USE `employee-schema`;
 
-*CREATE TABLE `user` (
+CREATE TABLE `user` (
   `user_id` int NOT NULL AUTO_INCREMENT,
   `username` varchar(45) NOT NULL,
   `password` varchar(45) NOT NULL,
