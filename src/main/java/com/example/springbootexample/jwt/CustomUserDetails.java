@@ -1,5 +1,4 @@
 package com.example.springbootexample.jwt;
-
 import com.example.springbootexample.models.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
