@@ -13,7 +13,7 @@ public class JwtTokenProvider {
     private final String JWT_SECRET = "spring-boot-example";
     private final long JWT_EXPIRATION = 604800000L;
 
-    public String generateToken(UserDTO userDetails) {
+    public String generateToken(CustomUserDetails userDetails) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION);
         return Jwts.builder()
