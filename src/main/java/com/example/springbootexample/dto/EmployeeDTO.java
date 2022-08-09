@@ -1,26 +1,36 @@
 package com.example.springbootexample.dto;
 
 public class EmployeeDTO {
-    private int empId;
-    private int userId;
+    private Long empId;
+    private Long userId;
     private String userName;
     private String firstName;
     private String lastName;
     private String emailId;
 
-    public int getEmpId() {
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Long getEmpId() {
         return empId;
     }
 
-    public void setEmpId(int empId) {
+    public void setEmpId(Long empId) {
         this.empId = empId;
     }
 
-    public int getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

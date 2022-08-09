@@ -29,13 +29,7 @@ public class AuthController {
     public ApiRepository authenticateUser(@RequestBody UserDTO loginRequest) {
         ApiRepository repository = new ApiRepository();
         try {
-            String username = loginRequest.getUsername();
-            String password = loginRequest.getPassword();
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
-            repository.setSuccess(true);
-            repository.setData(jwt);
+            repository = authService.login(loginRequest);
         } catch (Exception error) {
             repository.setMessage(error.getMessage());
         }
