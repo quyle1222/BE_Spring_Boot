@@ -40,8 +40,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userService)
                 .passwordEncoder(passwordEncoder());
     }
-
-
     @Autowired
     private JwtAuthenticationEntryPoint unauthorizedHandler;
 

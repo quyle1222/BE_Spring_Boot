@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 public class AuthService  {
     @Autowired
     UserRepository userRepository;
+
     @Autowired
     CommonService commonService;
     @Autowired
@@ -28,32 +29,42 @@ public class AuthService  {
 
     @Autowired
     WebSecurityConfig webSecurityConfig;
+
     public ApiRepository createUser(UserDTO user) {
         ApiRepository apiRepository = new ApiRepository();
         try {
-            userRepository.saveUser(user.getUsername(),webSecurityConfig.passwordEncoder().encode(user.getPassword()).toString());
-            apiRepository.setSuccess(true);
-            apiRepository.setData(null);
-            apiRepository.setMessage("Create user success");
+            User userExist = userRepository.findByUserName(user.getUsername());
+            if (userExist == null) {
+                userRepository.saveUser(user.getUsername(), webSecurityConfig.passwordEncoder().encode(user.getPassword()));
+                apiRepository.setSuccess(true);
+                apiRepository.setData(null);
+                apiRepository.setMessage("Create user success");
+            } else {
+                apiRepository.setSuccess(false);
+                apiRepository.setData(null);
+                apiRepository.setMessage("User exist");
+            }
         } catch (Exception error) {
             apiRepository.setMessage(error.getMessage());
         }
         return apiRepository;
     }
 
+
     public ApiRepository login (UserDTO user){
         ApiRepository repository = new ApiRepository();
-        try{
+        try {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = tokenProvider.generateToken((CustomUserDetails) authentication.getPrincipal());
-            User userDB = userRepository.findByUsername(user.getUsername());
+            User userDB = userRepository.findByUserName(user.getUsername());
             EmployeeDTO data = new EmployeeDTO();
             data.setToken(jwt);
             data.setUserId(userDB.getUser_id());
             data.setEmpId(userDB.getEmp_id());
             repository.setData(data);
-        }catch (Exception e){
+            repository.setSuccess(true);
+        } catch (Exception e) {
             repository.setMessage(e.getMessage());
         }
      return repository;
