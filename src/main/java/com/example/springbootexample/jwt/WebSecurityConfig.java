@@ -45,11 +45,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests()
-                .antMatchers("/livestream/*").permitAll()
-                .antMatchers("/auth/login").permitAll()
-                .antMatchers("/auth/createUser").permitAll()
-                .anyRequest().authenticated().and().exceptionHandling()
+        http.csrf().disable()
+                .authorizeRequests().antMatchers("/auth/login").permitAll().and()
+                .authorizeRequests().antMatchers("/auth/createUser").permitAll().and()
+                .authorizeRequests().anyRequest().authenticated().and().exceptionHandling()
                 .authenticationEntryPoint(unauthorizedHandler).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
