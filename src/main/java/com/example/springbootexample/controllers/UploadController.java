@@ -3,10 +3,9 @@ package com.example.springbootexample.controllers;
 import com.example.springbootexample.dto.ApiRepository;
 import com.example.springbootexample.services.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
@@ -24,5 +23,15 @@ public class UploadController {
             apiRepository.setMessage(e.getMessage());
         }
         return apiRepository;
+    }
+
+    @GetMapping(value = "/read/{id}")
+    public ResponseEntity<byte[]> getImage(@PathVariable("id") int id) {
+        try {
+            byte[] image = uploadService.getImage(id);
+            return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

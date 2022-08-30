@@ -13,7 +13,12 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class UploadService {
@@ -21,7 +26,6 @@ public class UploadService {
     private Environment env;
     @Autowired
     private ImageRepository imageRepository;
-
     @Autowired
     private EnvironmentSystem environmentSystem;
 
@@ -46,5 +50,32 @@ public class UploadService {
             apiRepository.setMessage(e.getMessage());
         }
         return apiRepository;
+
+    }
+
+    public byte[] getImage(int id) {
+        try {
+            Optional<Image> image = imageRepository.findById(Long.valueOf(id));
+            if (image.isEmpty() == false) {
+                String urlImage = image.get().getUrl();
+                URL url = new URL(urlImage);
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setRequestMethod("GET");
+                conn.setConnectTimeout(5 * 1000);
+                InputStream inStream = conn.getInputStream();
+                ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+                byte[] buffer = new byte[10240];
+                int len = 0;
+                while ((len = inStream.read(buffer)) != -1) {
+                    outStream.write(buffer, 0, len);
+                }
+                inStream.close();
+                byte[] btImg = outStream.toByteArray();
+                return btImg;
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return null;
     }
 }

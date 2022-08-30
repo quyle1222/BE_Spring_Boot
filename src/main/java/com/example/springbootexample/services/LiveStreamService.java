@@ -3,9 +3,11 @@ package com.example.springbootexample.services;
 import com.example.springbootexample.dto.ApiRepository;
 import com.example.springbootexample.dto.CreateRoomDTO;
 import com.example.springbootexample.dto.TokenDTO;
+import com.example.springbootexample.utils.EnvironmentSystem;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -14,10 +16,12 @@ import java.util.*;
 
 @Service
 public class LiveStreamService {
+    @Autowired
+    EnvironmentSystem environmentSystem;
 
     private String generateTokenPrivateJoinRoom(TokenDTO data) {
-        String app_access_key = LiveStreamConfig.app_access_key;
-        String app_secret = LiveStreamConfig.app_secret;
+        String app_access_key = environmentSystem.getApp_access_key();
+        String app_secret = environmentSystem.getApp_secret();
         Map<String, Object> payload = new HashMap<>();
         payload.put("access_key", app_access_key);
         payload.put("room_id", data.getRoom_id());
@@ -33,8 +37,8 @@ public class LiveStreamService {
     }
 
     private String generateManagementTokenPrivate() {
-        String app_access_key = LiveStreamConfig.app_access_key;
-        String app_secret = LiveStreamConfig.app_secret;
+        String app_access_key = environmentSystem.getApp_access_key();
+        String app_secret = environmentSystem.getApp_secret();
         Map<String, Object> payload = new HashMap<>();
         payload.put("access_key", app_access_key);
         payload.put("type", "management");
@@ -49,8 +53,8 @@ public class LiveStreamService {
     public ApiRepository generateManagementToken() {
         ApiRepository apiRepository = new ApiRepository();
         try {
-            String app_access_key = LiveStreamConfig.app_access_key;
-            String app_secret = LiveStreamConfig.app_secret;
+            String app_access_key = environmentSystem.getApp_access_key();
+            String app_secret = environmentSystem.getApp_secret();
             Map<String, Object> payload = new HashMap<>();
             payload.put("access_key", app_access_key);
             payload.put("type", "management");
@@ -96,7 +100,7 @@ public class LiveStreamService {
             headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
             headers.add("Authorization", "Bearer " + generateManagementTokenPrivate());
             HttpEntity<String> entity = new HttpEntity<String>(request.toString(), headers);
-            response = restTemplate.exchange(LiveStreamConfig.url_create_room, HttpMethod.POST, entity, Object.class);
+            response = restTemplate.exchange(environmentSystem.getUrl_create_room(), HttpMethod.POST, entity, Object.class);
             if (response.getStatusCode() == HttpStatus.OK) {
                 apiRepository.setData(response.getBody());
                 apiRepository.setSuccess(true);
