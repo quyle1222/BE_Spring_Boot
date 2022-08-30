@@ -41,7 +41,6 @@ public class UploadService {
             imageEntity.setResource_type(data.getResource_type());
             imageRepository.save(imageEntity);
             apiRepository.setSuccess(true);
-            apiRepository.setMessage(environmentSystem.getApi_key());
             apiRepository.setData(imageEntity);
         } catch (Exception e) {
             apiRepository.setMessage(e.getMessage());
