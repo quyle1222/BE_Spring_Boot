@@ -6,7 +6,6 @@ import com.example.springbootexample.dto.ApiRepository;
 import com.example.springbootexample.dto.CloudinaryUpload;
 import com.example.springbootexample.models.Image;
 import com.example.springbootexample.repositorys.ImageRepository;
-import com.example.springbootexample.utils.CloudinaryConfig;
 import com.example.springbootexample.utils.EnvironmentSystem;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +25,13 @@ public class UploadService {
     @Autowired
     private EnvironmentSystem environmentSystem;
 
-    private Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-            "cloud_name", CloudinaryConfig.cloud_name,
-            "api_key", CloudinaryConfig.api_key,
-            "api_secret", CloudinaryConfig.api_secret));
-
     public ApiRepository uploadImage(MultipartFile file) {
         ApiRepository apiRepository = new ApiRepository();
         try {
+            Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+                    "cloud_name", environmentSystem.getCloud_name(),
+                    "api_key", environmentSystem.getApi_key(),
+                    "api_secret", environmentSystem.getApi_secret()));
             ObjectMapper mapper = new ObjectMapper();
             Map upload = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
             CloudinaryUpload data = mapper.convertValue(upload, CloudinaryUpload.class);

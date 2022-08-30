@@ -2,7 +2,6 @@ package com.example.springbootexample.services;
 
 import com.example.springbootexample.dto.ApiRepository;
 import com.example.springbootexample.utils.ApiConstant;
-import com.example.springbootexample.utils.FootballConfig;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

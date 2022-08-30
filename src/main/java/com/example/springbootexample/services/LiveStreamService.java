@@ -3,7 +3,6 @@ package com.example.springbootexample.services;
 import com.example.springbootexample.dto.ApiRepository;
 import com.example.springbootexample.dto.CreateRoomDTO;
 import com.example.springbootexample.dto.TokenDTO;
-import com.example.springbootexample.utils.LiveStreamConfig;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.json.JSONObject;
