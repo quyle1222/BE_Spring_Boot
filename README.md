@@ -25,3 +25,14 @@ CREATE TABLE `employee` (
   `update_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`emp_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+CREATE TABLE `image` (
+`image_id` int NOT NULL AUTO_INCREMENT,
+`resource_type` varchar(45) NOT NULL,
+`url` varchar(255) NOT NULL,
+`secure_url` varchar(255) NOT NULL,
+`create_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+`update_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY (`image_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
