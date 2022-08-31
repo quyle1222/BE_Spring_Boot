@@ -25,7 +25,7 @@ public class FootballService {
             HttpEntity<?> entity = new HttpEntity<>(headers);
             RestTemplate restTemplate = new RestTemplate();
             String urlTemplate = UriComponentsBuilder.fromHttpUrl(ApiConstant.getListMatchClub)
-                    .queryParam("q", club.isEmpty() == false && club.trim().isEmpty() != false ? club : "manchester united")
+                    .queryParam("q", !club.isEmpty() && !club.trim().isEmpty() ? club : "manchester united")
                     .queryParam("api_key", environmentSystem.getToken_football_api())
                     .queryParam("location", "vietnam")
                     .encode().toUriString();

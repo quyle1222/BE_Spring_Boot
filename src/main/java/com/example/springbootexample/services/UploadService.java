@@ -55,8 +55,8 @@ public class UploadService {
 
     public byte[] getImage(int id) {
         try {
-            Optional<Image> image = imageRepository.findById(Long.valueOf(id));
-            if (image.isEmpty() == false) {
+            Optional<Image> image = imageRepository.findById((long) id);
+            if (image.isPresent()) {
                 String urlImage = image.get().getUrl();
                 URL url = new URL(urlImage);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -70,8 +70,7 @@ public class UploadService {
                     outStream.write(buffer, 0, len);
                 }
                 inStream.close();
-                byte[] btImg = outStream.toByteArray();
-                return btImg;
+                return outStream.toByteArray();
             }
         } catch (Exception e) {
             return null;
