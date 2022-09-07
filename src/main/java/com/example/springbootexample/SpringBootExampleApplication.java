@@ -10,7 +10,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @SpringBootApplication
 public class SpringBootExampleApplication {
-
+	@RequestMapping("/")
+	public String home() {
+		return "Hello Docker World";
+	}
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootExampleApplication.class, args
 		);
