@@ -23,6 +23,18 @@ public class EnvironmentSystem {
     @Value("${url_create_room}")
     private String url_create_room;
 
+    @Value("${db_movie_token}")
+    private String db_movie_token;
+
+    @Value("${url_movies_trending}")
+    private String url_movies_trending;
+    public String getUrl_movies_trending() {
+        return url_movies_trending;
+    }
+
+    public String getDb_movie_token() {
+        return db_movie_token;
+    }
 
     public String getCloud_name() {
         return cloud_name;
