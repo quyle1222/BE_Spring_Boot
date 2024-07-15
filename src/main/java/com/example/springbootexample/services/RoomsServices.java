@@ -3,16 +3,20 @@ package com.example.springbootexample.services;
 import com.example.springbootexample.models.Rooms;
 import com.example.springbootexample.repositorys.RoomsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class RoomsServices {
     @Autowired
     private RoomsRepository roomsRepository;
 
-    public void incrementConnectedCount(String roomId) {
+    public void incrementConnectedCount(UUID roomId) {
         roomsRepository.incrementConnectedCount(roomId);
     }
 
@@ -20,7 +24,12 @@ public class RoomsServices {
         roomsRepository.save(room);
     }
 
-    public Optional<Rooms> findRoomById(String roomId) {
+    public Optional<Rooms> findRoomById(UUID roomId) {
         return roomsRepository.findById(roomId);
+    }
+
+    public List<Rooms> findAll() {
+        Pageable page = Pageable.unpaged();
+        return roomsRepository.findAll(page).toList();
     }
 }

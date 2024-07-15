@@ -2,6 +2,7 @@ package com.example.springbootexample.models;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.context.annotation.Primary;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +18,7 @@ import java.util.UUID;
 public class Rooms {
     @Id
     @Column(name = "room_id")
-    String roomID;
+    UUID roomID;
 
     @Column(name = "connected_count")
     Integer connectedCount = 0;

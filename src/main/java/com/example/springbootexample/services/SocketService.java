@@ -7,6 +7,7 @@ import com.example.springbootexample.socket_config.MessageType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -41,30 +42,34 @@ public class SocketService {
     }
 
     public void saveInfoMessage(SocketIOClient senderClient, String message, String room) {
-        Optional<Rooms> isExist = roomsServices.findRoomById(room);
-        if (isExist.isPresent()) {
-            roomsServices.incrementConnectedCount(room);
-        } else {
-            Rooms roomData = new Rooms();
-            roomData.setRoomID(room);
-            roomData.setConnectedCount(1);
-            roomsServices.saveOrUpdateRoom(roomData);
-        }
+        UUID roomID = UUID.fromString(room);
+//        Rooms isExist = roomsServices.getAll(roomID);
+
     }
 
 
     public void saveConnectedUserToRoom(SocketIOClient senderClient, String room, String username) {
-        Optional<Rooms> isExist = roomsServices.findRoomById(room);
-        if (isExist.isPresent()) {
-            roomsServices.incrementConnectedCount(room);
+        UUID roomID = UUID.fromString(room);
+        List<Rooms> isExist = roomsServices.findAll();
+
+        if (!isExist.isEmpty()) {
+            UUID roomData = UUID.fromString(room);
         } else {
-            Rooms roomData = new Rooms();
-            roomData.setRoomID(room);
-            roomData.setConnectedCount(1);
-            roomsServices.saveOrUpdateRoom(roomData);
+            UUID roomData = UUID.fromString(room);
         }
-        for (SocketIOClient client: senderClient.getNamespace().getRoomOperations(room).getClients()) {
-            client.sendEvent("read_message", String.format("New user connected %s", username));
-        }
+//        UUID roomID = UUID.fromString(room);
+//        Optional<Rooms> isExist = roomsServices.findRoomById(roomID);
+//
+//        if (isExist.isPresent()) {
+//            roomsServices.incrementConnectedCount(roomID);
+//        } else {
+//            Rooms roomData = new Rooms();
+//            roomData.setRoomID(roomID);
+//            roomData.setConnectedCount(1);
+//            roomsServices.saveOrUpdateRoom(roomData);
+//        }
+//        for (SocketIOClient client: senderClient.getNamespace().getRoomOperations(room).getClients()) {
+//            client.sendEvent("read_message", String.format("New user connected %s", username));
+//        }
     }
 }

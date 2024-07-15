@@ -22,7 +22,7 @@ import javax.persistence.*;
 public class Message {
 
     @Id
-    @Column(updatable = false, nullable = false, columnDefinition = "id DEFAULT uuid_generate_v4()")
+    @Column()
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
