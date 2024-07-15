@@ -50,26 +50,19 @@ public class SocketService {
 
     public void saveConnectedUserToRoom(SocketIOClient senderClient, String room, String username) {
         UUID roomID = UUID.fromString(room);
-        List<Rooms> isExist = roomsServices.findAll();
-
-        if (!isExist.isEmpty()) {
-            UUID roomData = UUID.fromString(room);
+        Optional<Rooms> isExist = roomsServices.findById(roomID);
+        if (isExist.isPresent()) {
+            roomsServices.incrementConnectedCount(roomID);
         } else {
-            UUID roomData = UUID.fromString(room);
+            Rooms roomData = new Rooms();
+            roomData.setRoomID(roomID);
+            roomData.setConnectedCount(1);
+            roomsServices.saveOrUpdateRoom(roomData);
         }
-//        UUID roomID = UUID.fromString(room);
-//        Optional<Rooms> isExist = roomsServices.findRoomById(roomID);
-//
-//        if (isExist.isPresent()) {
-//            roomsServices.incrementConnectedCount(roomID);
-//        } else {
-//            Rooms roomData = new Rooms();
-//            roomData.setRoomID(roomID);
-//            roomData.setConnectedCount(1);
-//            roomsServices.saveOrUpdateRoom(roomData);
-//        }
-//        for (SocketIOClient client: senderClient.getNamespace().getRoomOperations(room).getClients()) {
-//            client.sendEvent("read_message", String.format("New user connected %s", username));
-//        }
+        List<Rooms> roomsList = roomsServices.findAll();
+        for (SocketIOClient client: senderClient.getNamespace().getRoomOperations(room).getClients()) {
+            client.sendEvent("read_message", String.format("New user connected %s", username));
+        }
+
     }
 }

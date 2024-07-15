@@ -4,10 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.annotation.Primary;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -17,6 +14,7 @@ import java.util.UUID;
 @Setter
 public class Rooms {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO) // or another strategy
     @Column(name = "room_id")
     UUID roomID;
 

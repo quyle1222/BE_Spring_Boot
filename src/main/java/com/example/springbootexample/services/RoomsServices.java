@@ -24,8 +24,8 @@ public class RoomsServices {
         roomsRepository.save(room);
     }
 
-    public Optional<Rooms> findRoomById(UUID roomId) {
-        return roomsRepository.findById(roomId);
+    public Optional<Rooms> findById(UUID roomId) {
+        return roomsRepository.findByRoomId(roomId);
     }
 
     public List<Rooms> findAll() {

@@ -22,9 +22,6 @@ public interface RoomsRepository extends JpaRepository<Rooms, UUID> {
     List<Rooms> findAllById(Iterable<UUID> uuids);
 
     @Override
-    Optional<Rooms> findById(UUID uuid);
-
-    @Override
     <S extends Rooms, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction);
 
     @Modifying
@@ -36,5 +33,8 @@ public interface RoomsRepository extends JpaRepository<Rooms, UUID> {
     <S extends Rooms> S save(S entity);
 
     @Override
-    Page<Rooms> findAll(Pageable pageable);
+    Optional<Rooms> findById(UUID uuid);
+
+    @Query("SELECT r FROM Rooms r WHERE r.roomID = :roomId")
+    Optional<Rooms> findByRoomId(UUID roomId);
 }
