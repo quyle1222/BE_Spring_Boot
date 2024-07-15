@@ -88,7 +88,12 @@
 			<artifactId>netty-socketio</artifactId>
 			<version>${netty-socketio.version}</version>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>2.2.3</version>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>

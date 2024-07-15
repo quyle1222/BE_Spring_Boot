@@ -1,10 +1,12 @@
 package com.example.springbootexample.socket_config;
 
+import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 import com.example.springbootexample.services.SocketService;
+import com.example.springbootexample.utils.AppConstants;
 import lombok.extern.slf4j.Slf4j;
 import lombok.var;
 import org.springframework.stereotype.Component;
@@ -24,13 +26,12 @@ public class SocketModule {
         this.socketService = socketService;
         server.addConnectListener(this.onConnected());
         server.addDisconnectListener(this.onDisconnected());
-        server.addEventListener("send_message", Message.class, this.onChatReceived());
+        server.addEventListener(AppConstants.sendMessageEvent, Object.class, this.onChatReceived());
     }
 
-    private DataListener<Message> onChatReceived() {
+    private DataListener<Object> onChatReceived() {
         return (senderClient, data, ackSender) -> {
             log.info(data.toString());
-            socketService.saveMessage(senderClient, data);
         };
     }
 
@@ -39,9 +40,10 @@ public class SocketModule {
             var params = client.getHandshakeData().getUrlParams();
             String room = String.join("", params.get("room"));
             String username = String.join("", params.get("username"));
-            client.joinRoom(room);
-            socketService.saveInfoMessage(client, String.format("%s joined to chat", username), room);
-            log.info("Socket ID[{}] - room[{}] - username [{}]  Connected to chat module through", client.getSessionId().toString(), room, username);
+            if (!room.isEmpty() && !username.isEmpty()) {
+                client.joinRoom(room);
+                socketService.saveConnectedUserToRoom(client, room, username);
+            }
         };
 
     }
@@ -51,9 +53,10 @@ public class SocketModule {
             var params = client.getHandshakeData().getUrlParams();
             String room = String.join("", params.get("room"));
             String username = String.join("", params.get("username"));
-            socketService.saveInfoMessage(client, String.format("%s disconnected", username), room);
-            log.info("Socket ID[{}] - room[{}] - username [{}]  discnnected to chat module through", client.getSessionId().toString(), room, username);
+            if (!room.isEmpty() && !username.isEmpty()) {
+                client.leaveRoom(room);
+                socketService.saveInfoMessage(client, String.format("%s disconnected", username), room);
+            }
         };
     }
-
 }

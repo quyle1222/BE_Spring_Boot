@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Builder
@@ -22,7 +22,9 @@ import javax.persistence.*;
 public class Message {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false, nullable = false, columnDefinition = "id DEFAULT uuid_generate_v4()")
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
     @Column
@@ -39,6 +41,7 @@ public class Message {
     private String message;
 
     @Column
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private LocalDateTime createdAt;
 
 }
